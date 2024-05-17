@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tryber - Decision Tree Tool</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  body {
+    background-color: #f8f9fa;
+  }
+  .container {
+    margin-top: 50px;
+  }
+  .card {
+    margin-bottom: 20px;
+  }
+  .node {
+    margin-bottom: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1 class="text-center mb-4">Tryber - Decision Tree Tool (Free)</h1>
+  
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Create Decision Tree</h5>
+      <p class="card-text">Use this tool to build decision trees with branching logic.</p>
+      <button id="startButton" class="btn btn-primary">Start Building</button>
+      <button id="saveButton" class="btn btn-success ml-2">Save</button>
+      <button id="loadButton" class="btn btn-info ml-2">Load</button>
+    </div>
+  </div>
+
+  <div id="decisionTree" class="card" style="display: none;">
+    <div class="card-body">
+      <h5 class="card-title">Decision Tree</h5>
+      <div id="treeContainer">
+      </div>
+      <button id="addNodeButton" class="btn btn-success mt-3">Add Node</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  document.getElementById("startButton").addEventListener("click", function() {
+    document.getElementById("decisionTree").style.display = "block";
+
+    generateDecisionTree();
+  });
+
+  function generateDecisionTree() {
+    const treeContainer = document.getElementById("treeContainer");
+    treeContainer.innerHTML = ''; 
+    const rootNode = createNode("Root Node");
+    treeContainer.appendChild(rootNode);
+    const branch1 = createBranch("Branch 1");
+    const branch2 = createBranch("Branch 2");
+    rootNode.appendChild(branch1);
+    rootNode.appendChild(branch2);
+    const branch1Node1 = createNode("Branch 1 Node 1");
+    const branch1Node2 = createNode("Branch 1 Node 2");
+    branch1.appendChild(branch1Node1);
+    branch1.appendChild(branch1Node2);
+    const branch2Node1 = createNode("Branch 2 Node 1");
+    const branch2Node2 = createNode("Branch 2 Node 2");
+    branch2.appendChild(branch2Node1);
+    branch2.appendChild(branch2Node2);
+  }
+
+  function createNode(text) {
+    const node = document.createElement("div");
+    node.classList.add("node");
+    node.contentEditable = true; 
+    node.textContent = text;
+    return node;
+  }
+
+  function createBranch(text) {
+    const branch = document.createElement("div");
+    branch.classList.add("branch");
+    branch.textContent = text;
+    return branch;
+  }
+
+  document.getElementById("addNodeButton").addEventListener("click", function() {
+    const newNode = createNode("New Node");
+    const treeContainer = document.getElementById("treeContainer");
+    treeContainer.appendChild(newNode);
+  });
+
+  document.getElementById("saveButton").addEventListener("click", function() {
+    const treeHtml = document.getElementById("treeContainer").innerHTML;
+    localStorage.setItem("decisionTree", treeHtml);
+    alert("Decision tree saved successfully!");
+  });
+
+  document.getElementById("loadButton").addEventListener("click", function() {
+    const savedTreeHtml = localStorage.getItem("decisionTree");
+    if (savedTreeHtml) {
+      document.getElementById("treeContainer").innerHTML = savedTreeHtml;
+      alert("Decision tree loaded successfully!");
+    } else {
+      alert("No saved decision tree found!");
+    }
+  });
+</script>
+</body>
+</html>
